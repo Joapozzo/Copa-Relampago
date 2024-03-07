@@ -84,9 +84,12 @@ const matchesSlice = createSlice({
         setDorsal: (state, action) => {
             const { playerId, dorsal } = action.payload;
             const player = state.flatMap(team => team.Player).find(player => player.ID === playerId);
-            if (player) {
+            const findDorsal = state.flatMap(team => team.Player).find(player => player.Dorsal === dorsal);
+            if (!findDorsal && player) {
                 player.Dorsal = dorsal;
+                return;
             }
+            alert("Dorsal existente, ingrese otro")
         },
     }
 })

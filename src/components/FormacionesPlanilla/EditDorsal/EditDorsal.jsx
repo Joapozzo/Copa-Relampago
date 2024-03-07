@@ -11,8 +11,13 @@ import { setDorsal } from '../../../redux/Matches/matchesSlice';
 const EditDorsal = () => {
     const dispatch = useDispatch();
     const hiddenDorsal = useSelector((state) => state.planillero.dorsal.hidden);
+
     const playerSelected = useSelector((state) => state.planillero.dorsal.playerSelected);
     const [dorsalValue, setDorsalValue] = useState('');
+
+    const playerNameSelected = useSelector((state) => state.planillero.dorsal.playerSelectedName);
+    
+    
 
     //Mandar al store del partido el numero y el id del jugador seleccionado
     const handleConfirm = () => {
@@ -34,7 +39,7 @@ const EditDorsal = () => {
                             <p>Volver</p>
                         </ActionBack>
                         <ActionTitle>
-                            <h3>Asignar dorsal al jugador Conrado Perez Seia</h3>
+                            <h3>Asignar dorsal al jugador {playerNameSelected}</h3>
                             <AlignmentDivider/>
                         </ActionTitle>
                         <ActionsContainer>

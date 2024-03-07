@@ -6,7 +6,7 @@ import EscudoCelta from '/Escudos/celta-de-vino.png';
 import EscudoPuraQuimica from '/Escudos/pura-quimica.png';
 import { HiMiniPencil } from "react-icons/hi2";
 
-import { setNamePlayer, setPlayerSelected, setPlayerSelectedAction, setdorsalPlayer, toggleHiddenAction, toggleHiddenDorsal, setIsLocalTeam } from '../../redux/Planillero/planilleroSlice';
+import { setNamePlayer, setPlayerSelected, setPlayerSelectedAction, setdorsalPlayer, toggleHiddenAction, toggleHiddenDorsal, setIsLocalTeam, setNamePlayerSelected } from '../../redux/Planillero/planilleroSlice';
 
 const FormacionesPlanilla = () => {
     const dispatch = useDispatch();
@@ -45,9 +45,10 @@ const FormacionesPlanilla = () => {
     const [selectedPlayerId, setSelectedPlayerId] = useState(''); 
 
     // Función para manejar el clic en el lápiz y abrir el componente EditDorsal
-    const handleEditDorsal = (playerId) => {
+    const handleEditDorsal = (playerId, playerName) => {
         setSelectedPlayerId(playerId);
         dispatch(setPlayerSelected(playerId))
+        dispatch(setNamePlayerSelected(playerName))
         dispatch(toggleHiddenDorsal());
     };
 
@@ -92,7 +93,7 @@ const FormacionesPlanilla = () => {
                             <td className='text'>{player.Nombre}</td>
                             <td className='edit'>
                                 <HiMiniPencil
-                                    onClick={() => handleEditDorsal(player.ID)}
+                                    onClick={() => handleEditDorsal(player.ID, player.Nombre)}
                                 />
                             </td>
                         </tr>

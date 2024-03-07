@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   dorsal: {
     hidden: true,
-    playerSelected: null
+    playerSelected: null,
+    playerSelectedName: null
   },
   asist: {
     hidden: true,
@@ -69,7 +70,10 @@ const planilleroSlice = createSlice({
     handleConfirm: (state, action) => {
       const { isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto } = action.payload;
       state.planilla.actions.push({ isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto });
-    }
+    },
+    setNamePlayerSelected: (state, action) => {
+      state.dorsal.playerSelectedName = action.payload;
+    },
   }
 });
 
@@ -88,6 +92,7 @@ export const {
   setNamePlayer,
   setIsLocalTeam,
   handleConfirm,
+  setNamePlayerSelected,
 } = planilleroSlice.actions;
 
 export default planilleroSlice.reducer;
