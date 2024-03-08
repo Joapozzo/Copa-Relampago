@@ -66,10 +66,23 @@ const planilleroSlice = createSlice({
     setIsLocalTeam: (state, action) => {
       state.planilla.localTeam = action.payload;
     },
-    // Nueva acción para agregar una acción de jugador con ID de partido y equipo
     handleConfirm: (state, action) => {
       const { isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto } = action.payload;
-      state.planilla.actions.push({ isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto });
+      
+      // Agregar la nueva acción
+      const nuevaAccion = { isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto };
+      state.planilla.actions.push(nuevaAccion);
+      
+      // Ordenar las acciones por minuto
+      state.planilla.actions.sort((a, b) => {
+        if (a.minuto < b.minuto) {
+          return -1;
+        }
+        if (a.minuto > b.minuto) {
+          return 1;
+        }
+        return 0;
+      });
     },
     setNamePlayerSelected: (state, action) => {
       state.dorsal.playerSelectedName = action.payload;

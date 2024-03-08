@@ -9,8 +9,8 @@ export const ActionConfirmedContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Color de fondo semitransparente para el overlay */
-    z-index: 998; /* Asegura que esté por encima de otros elementos */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
 `
 export const ActionConfirmedWrapper = styled.div`
     width: 60%;
@@ -32,6 +32,19 @@ export const ActionTitle = styled.div`
 export const ActionsContainer = styled.div`
     display: flex;
     align-items: start;
+    flex-direction: column;
+    gap: 15px;
+`
+
+export const OptionGolWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+`
+
+export const OptionGolContainer = styled.div`
+    display: flex;
     flex-direction: column;
     gap: 15px;
 `

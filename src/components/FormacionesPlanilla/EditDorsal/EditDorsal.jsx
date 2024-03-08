@@ -17,7 +17,12 @@ const EditDorsal = () => {
 
     const playerNameSelected = useSelector((state) => state.planillero.dorsal.playerSelectedName);
     
-    
+    //Logica validar solo numeros
+    const handleInputChange = (value) => {
+        if (/^\d{0,3}$/.test(value) || value === '') {
+            setDorsalValue(value);
+        }
+    };
 
     //Mandar al store del partido el numero y el id del jugador seleccionado
     const handleConfirm = () => {
@@ -47,7 +52,7 @@ const EditDorsal = () => {
                             <Input2
                                 placeholder={"ej: 10"}
                                 value={dorsalValue}
-                                onChange={(e) => setDorsalValue(e.target.value)}
+                                onValueChange={handleInputChange}  // Cambiado a onValueChange
                             />
                         </ActionsContainer>
                         <ActionNext onClick={handleConfirm}>

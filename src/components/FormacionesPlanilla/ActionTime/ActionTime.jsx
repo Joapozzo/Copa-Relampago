@@ -27,9 +27,12 @@ const ActionConfirmed = () => {
     const [inputValue, setInputValue] = useState("");
 
     const handleInputChange = (value) => {
-        setInputValue(value);
+        // Verificar si el valor ingresado contiene solo dos números
+        if (/^\d{0,2}$/.test(value) || value === '') {
+            setInputValue(value);
+        }
     };
-
+    
     // Logica payload
     const { localTeam, playerSelected, playerName ,dorsalPlayer, actionPlayer } = useSelector((state) => state.planillero.planilla)
     const { newTime } = useSelector((state) => state.planillero.planillaTime)
@@ -51,8 +54,8 @@ const ActionConfirmed = () => {
         actionData.minuto = inputValue;
 
         dispatch(handleConfirm(actionData))
-        console.log(actions);
         dispatch(toggleHiddenTime())
+        setInputValue('')
     }
 
     return (
@@ -73,7 +76,6 @@ const ActionConfirmed = () => {
                                 placeholder={"ej: 00:00"}
                                 value={inputValue}
                                 onValueChange={handleInputChange}
-                                onChange={(e) => setInputValue(e.target.value)}
                             />
                         </ActionsContainer>
                         <ActionNext

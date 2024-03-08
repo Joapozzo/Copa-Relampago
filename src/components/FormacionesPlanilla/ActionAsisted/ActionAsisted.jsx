@@ -1,7 +1,7 @@
 // ActionAsisted.js
 
 import React from 'react';
-import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer, AssistOptContainer } from '../ActionConfirmed/ActionConfirmedStyles';
+import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer, AssistOptContainer, OptionGolContainer, OptionGolWrapper } from '../ActionConfirmed/ActionConfirmedStyles';
 import { AlignmentDivider } from '../../Stats/Alignment/AlignmentStyles';
 import { HiArrowLeft } from "react-icons/hi2";
 import Input2 from '../../UI/Input/Input2';
@@ -35,11 +35,57 @@ const ActionAsisted = () => {
                         <p>Volver</p>
                     </ActionBack>
                     <ActionTitle>
-                        <h3>Indique el dorsal del asistidor</h3>
+                        <h3>Indique la opción del Gol</h3>
                         <AlignmentDivider/>
                     </ActionTitle>
 
                     <ActionsContainer>
+                        <OptionGolWrapper>
+                        <OptionGolContainer>
+                            <h4>El gol fue de penal?</h4>
+                            <AssistOptContainer>
+                                <input 
+                                    type="radio" 
+                                    name="opt3" 
+                                    id=""
+                                    value="si"
+                                />
+                                <p>Si</p>
+                                </AssistOptContainer>
+                                <AssistOptContainer>
+                                    <input 
+                                        type="radio" 
+                                        name="opt4" 
+                                        id=""
+                                        value="no"
+                                    />
+                                    <p>No</p>    
+                                </AssistOptContainer>
+                            </OptionGolContainer>
+
+                            <OptionGolContainer>
+                            <h4>El gol fue en contra?</h4>
+                            <AssistOptContainer>
+                                <input 
+                                    type="radio" 
+                                    name="opt3" 
+                                    id=""
+                                    value="si"
+                                />
+                                <p>Si</p>
+                                </AssistOptContainer>
+                                <AssistOptContainer>
+                                    <input 
+                                        type="radio" 
+                                        name="opt4" 
+                                        id=""
+                                        value="no"
+                                    />
+                                    <p>No</p>    
+                            </AssistOptContainer>
+                        </OptionGolContainer>
+                        </OptionGolWrapper>
+
                         <h4>¿Hubo asistencia?</h4>
                         <AssistOptContainer>
                             <input 
@@ -59,7 +105,7 @@ const ActionAsisted = () => {
                                 />
                                 <p>No</p>    
                             </AssistOptContainer>
-                        <Input2 placeholder={"ej: 10"}/>
+                        <Input2 placeholder={"Indique dorsal del asistidor"}/>
                     </ActionsContainer>
                     <ActionNext
                     onClick={handleNext}>
