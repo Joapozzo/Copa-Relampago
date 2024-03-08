@@ -8,11 +8,16 @@ import Input2 from '../../UI/Input/Input2';
 import { setNewTime, toggleHiddenTime, toggleHiddenAction, toggleHiddenAsist, handleConfirm } from '../../../redux/Planillero/planilleroSlice';
 
 const ActionConfirmed = () => {
+
+    const reviewDataGol = useSelector((state) => state.planillero.asist.dataGol)
+
+
     // Logica de navegacion
     const dispatch = useDispatch();
     const hiddenTime = useSelector((state) => state.planillero.planillaTime.hidden);
     const navigationSource = useSelector((state) => state.planillero.planilla.navigationSource);
 
+    //Logica para navegar en caso de que si es gol se abra la ventana assited
     const handleBack = () => {
         if (navigationSource === 'Assisted') {
             dispatch(toggleHiddenAsist());
@@ -40,7 +45,6 @@ const ActionConfirmed = () => {
 
     const handleTimeConfirm = () => {
         dispatch(setNewTime(inputValue))
-
         const actionData = {
             isLocalTeam: localTeam,
             idJugador: playerSelected,

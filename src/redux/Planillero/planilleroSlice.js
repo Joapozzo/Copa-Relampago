@@ -8,7 +8,7 @@ const initialState = {
   },
   asist: {
     hidden: true,
-    newDorsal: ''
+    dataGol: {}
   },
   planilla: {
     hidden: true,
@@ -68,9 +68,21 @@ const planilleroSlice = createSlice({
     },
     handleConfirm: (state, action) => {
       const { isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto } = action.payload;
-      
+    
       // Agregar la nueva acción
-      const nuevaAccion = { isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto };
+      let nuevaAccion = { isLocalTeam, idJugador, nombreJugador, dorsal, accion, minuto };
+      
+      const isGolEnContra = state.asist.dataGol.enContra;
+
+      if (isGolEnContra) {
+        nuevaAccion.isLocalTeam = !isLocalTeam;
+      }
+
+      // Si la acción es un gol, agregamos la información adicional
+      if (accion === 'Gol') {
+        nuevaAccion.golDetails = state.asist.dataGol;
+      }
+    
       state.planilla.actions.push(nuevaAccion);
       
       // Ordenar las acciones por minuto
@@ -83,9 +95,12 @@ const planilleroSlice = createSlice({
         }
         return 0;
       });
-    },
+    },         
     setNamePlayerSelected: (state, action) => {
       state.dorsal.playerSelectedName = action.payload;
+    },
+    setNewAssist: (state, action) => {
+      state.asist.dataGol = action.payload;
     },
   }
 });
@@ -106,6 +121,7 @@ export const {
   setIsLocalTeam,
   handleConfirm,
   setNamePlayerSelected,
+  setNewAssist,
 } = planilleroSlice.actions;
 
 export default planilleroSlice.reducer;

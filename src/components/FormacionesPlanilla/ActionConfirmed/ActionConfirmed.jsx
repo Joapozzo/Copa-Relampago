@@ -17,11 +17,7 @@ const ActionConfirmed = () => {
         setSelectedOption(option);
     };
 
-    const player = useSelector((state) => state.match.player && state.match.player.ID);
-
-
-    //Seleccionar jugador mediante click en edit
-    const [selectedPlayerId, setSelectedPlayerId] = useState(''); 
+    // const player = useSelector((state) => state.match.player && state.match.player.ID);
 
     //Avisar que selecciono el planillero
     const handleNext = () => {

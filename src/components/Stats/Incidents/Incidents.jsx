@@ -22,7 +22,6 @@ const renderActionIcon = (action) => {
     }
   };
 
-
   return (
     <IndicentsWrapper>
         <h3>Incidencias</h3>
@@ -43,7 +42,7 @@ const renderActionIcon = (action) => {
 
         {actions.map((action, index) => (
           <IncidentLocal key={index} className={action.isLocalTeam ? 'local' : 'visit'}>
-          <h3>{action.minuto}</h3>
+          <h3>{action.minuto}'</h3>
           {renderActionIcon(action)}
           <h4>{action.nombreJugador}</h4> {/* Change to action.nombre */}
           {/* {action.resultado && <p>({action.resultado})</p>} */}

@@ -1,29 +1,86 @@
-// ActionAsisted.js
-
-import React from 'react';
+import React, { useState } from 'react';
 import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer, AssistOptContainer, OptionGolContainer, OptionGolWrapper } from '../ActionConfirmed/ActionConfirmedStyles';
 import { AlignmentDivider } from '../../Stats/Alignment/AlignmentStyles';
 import { HiArrowLeft } from "react-icons/hi2";
-import Input2 from '../../UI/Input/Input2';
-
+import Select2 from '../../UI/Select/Select2';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleHiddenAction, toggleHiddenAsist, toggleHiddenTime } from '../../../redux/Planillero/planilleroSlice';
+import { setNewAssist, toggleHiddenAction, toggleHiddenAsist, toggleHiddenTime } from '../../../redux/Planillero/planilleroSlice';
 
 const ActionAsisted = () => {
     const dispatch = useDispatch();
     const hiddenAsist = useSelector((state) => state.planillero.asist.hidden);
 
+    //Boton siguiente
     const handleNext = () => {
+
+        //Envio de objeto al slice con la data del gol
+        const dataGol = {
+            penal: penalSeleccionado,
+            enContra: enContraSeleccionado,
+            withAssist: asistenciaSeleccionada === "si" ? true : false,
+            idAssist: asistenciaSeleccionada === "si" ? selectedPlayer : null,
+        }
+        dispatch(setNewAssist(dataGol))
+
+        //Cerrar y abrir ventanas
         dispatch(toggleHiddenAsist());
         dispatch(toggleHiddenTime());
+
+        //Reiniciar estados
+        setPenalSeleccionado(null);
+        setEnContraSeleccionado(null);
+        setAsistenciaSeleccionada(null);
+        setSelectedPlayer('');
     };
 
+    //Logica volver atras
     const handleBack = () => {
         dispatch(toggleHiddenAsist());
         dispatch(toggleHiddenAction());
     };
 
+    //Logica enabled
+    const [penalSeleccionado, setPenalSeleccionado] = useState(null);
+    const [enContraSeleccionado, setEnContraSeleccionado] = useState(null);
+    const [asistenciaSeleccionada, setAsistenciaSeleccionada] = useState(null);
+
+    const handlePenalChange = (event) => {
+        setPenalSeleccionado(event.target.value);
+        setEnContraSeleccionado(null);
+        setAsistenciaSeleccionada(null);
+    };
+
+    const handleEnContraChange = (event) => {
+        setEnContraSeleccionado(event.target.value);
+        setPenalSeleccionado(null);
+        setAsistenciaSeleccionada(null);
+    };
+
+    const handleAsistenciaChange = (event) => {
+        setAsistenciaSeleccionada(event.target.value);
+        setPenalSeleccionado(null);
+        setEnContraSeleccionado(null);
+    };
+
+    //Enviar local team true o false al select para la filtracion
+    const planillaData = useSelector((state) => state.planillero.planilla.localTeam)
+    const playerActionId = useSelector((state) => state.planillero.planilla.playerSelected)
+
+    // Estado para almacenar el jugador seleccionado
+    const [selectedPlayer, setSelectedPlayer] = useState('');
+
+    //Logica para validar enabled del boton
+    const isButtonEnabled = () => {
+        if (asistenciaSeleccionada === "si" && selectedPlayer !== '') {
+            return true;
+        }
+        if (penalSeleccionado === "si" || enContraSeleccionado === "si" || asistenciaSeleccionada === 'no' ) {
+            return true;
+        }
+        return false;
+    };
+    
 
     return (
         <>
@@ -41,75 +98,68 @@ const ActionAsisted = () => {
 
                     <ActionsContainer>
                         <OptionGolWrapper>
-                        <OptionGolContainer>
-                            <h4>El gol fue de penal?</h4>
-                            <AssistOptContainer>
-                                <input 
-                                    type="radio" 
-                                    name="opt3" 
-                                    id=""
-                                    value="si"
-                                />
-                                <p>Si</p>
-                                </AssistOptContainer>
+                            <OptionGolContainer>
+                                <h4>El gol fue de penal?</h4>
                                 <AssistOptContainer>
                                     <input 
-                                        type="radio" 
-                                        name="opt4" 
-                                        id=""
-                                        value="no"
+                                        type="radio"
+                                        name="penal"
+                                        value="si"
+                                        checked={penalSeleccionado === "si"}
+                                        onChange={handlePenalChange}
                                     />
-                                    <p>No</p>    
+                                    <label htmlFor="penal">Si</label>
                                 </AssistOptContainer>
                             </OptionGolContainer>
 
                             <OptionGolContainer>
-                            <h4>El gol fue en contra?</h4>
-                            <AssistOptContainer>
-                                <input 
-                                    type="radio" 
-                                    name="opt3" 
-                                    id=""
-                                    value="si"
-                                />
-                                <p>Si</p>
-                                </AssistOptContainer>
+                                <h4>El gol fue en contra?</h4>
                                 <AssistOptContainer>
                                     <input 
-                                        type="radio" 
-                                        name="opt4" 
-                                        id=""
-                                        value="no"
+                                        type="radio"
+                                        name="enContra"
+                                        value="si"
+                                        checked={enContraSeleccionado === "si"}
+                                        onChange={handleEnContraChange}
                                     />
-                                    <p>No</p>    
-                            </AssistOptContainer>
-                        </OptionGolContainer>
+                                    <label htmlFor="enContra">Si</label>
+                                </AssistOptContainer>
+                            </OptionGolContainer>
                         </OptionGolWrapper>
 
                         <h4>¿Hubo asistencia?</h4>
                         <AssistOptContainer>
                             <input 
-                                type="radio" 
-                                name="opt1" 
-                                id=""
+                                type="radio"
+                                name="asistencia"
                                 value="si"
+                                checked={asistenciaSeleccionada === "si"}
+                                onChange={handleAsistenciaChange}
                             />
-                            <p>Si</p>
-                            </AssistOptContainer>
-                            <AssistOptContainer>
-                                <input 
-                                    type="radio" 
-                                    name="opt1" 
-                                    id=""
-                                    value="si"
-                                />
-                                <p>No</p>    
-                            </AssistOptContainer>
-                        <Input2 placeholder={"Indique dorsal del asistidor"}/>
+                            <label htmlFor="asistencia">Si</label>
+                        </AssistOptContainer>
+                        <AssistOptContainer>
+                            <input 
+                                type="radio"
+                                name="asistencia"
+                                value="no"
+                                checked={asistenciaSeleccionada === "no"}
+                                onChange={handleAsistenciaChange}
+                            />
+                            <label htmlFor="asistencia">No</label>    
+                        </AssistOptContainer>
+                        {asistenciaSeleccionada === "si" && (
+                            <Select2 
+                                localTeam={planillaData}
+                                currentActionPlayerId={playerActionId}
+                                onSelect={(playerId) => setSelectedPlayer(playerId)}
+                            />
+                        )}
                     </ActionsContainer>
-                    <ActionNext
-                    onClick={handleNext}>
-                        Siguiente
+                    <ActionNext 
+                    onClick={handleNext}
+                    className={!isButtonEnabled() ? 'disabled' : ''}
+                    >Siguiente
                     </ActionNext>
                 </ActionConfirmedWrapper>
             </ActionConfirmedContainer>

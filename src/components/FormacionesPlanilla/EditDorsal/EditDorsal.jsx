@@ -26,8 +26,7 @@ const EditDorsal = () => {
 
     //Mandar al store del partido el numero y el id del jugador seleccionado
     const handleConfirm = () => {
-        if (playerSelected !== null) {
-            console.log({ playerId: playerSelected, dorsal: dorsalValue });  
+        if (playerSelected !== null) { 
             dispatch(setDorsal({ playerId: playerSelected, dorsal: dorsalValue }));
         }
         dispatch(toggleHiddenDorsal());

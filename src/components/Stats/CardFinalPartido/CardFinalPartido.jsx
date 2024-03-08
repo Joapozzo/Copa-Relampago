@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 
 const CardFinalPartido = () => {
     const actions = useSelector((state) => state.planillero.planilla.actions);
+    console.log(actions);
     const [goalLocal, setGoalLocal] = useState(0);
     const [goalVisit, setGoalVisit] = useState(0);
 

@@ -40,4 +40,9 @@ export const InputWrapper2 = styled.input`
     width: 100%;
     padding: 8px;
     width: 60%;
+    
+    &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;}
 `
