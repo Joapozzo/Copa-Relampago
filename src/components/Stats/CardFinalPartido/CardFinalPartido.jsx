@@ -30,7 +30,7 @@ const CardFinalPartido = () => {
     }, [actions]);
 
     //Logica manejo estado partido
-    const matchState = useSelector((state) => state.planillero.timeMatch.matchState)
+    const matchState = useSelector((state) => state.planillero.timeMatch?.matchState);
 
     return (
         <CardPartidoWrapper>

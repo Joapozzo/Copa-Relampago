@@ -10,7 +10,6 @@ import ActionAsisted from '../../components/FormacionesPlanilla/ActionAsisted/Ac
 import Cronometro from '../../components/FormacionesPlanilla/Cronometro/Cronometro.jsx';
 import { ButtonContainer, ButtonMatch, PlanillaContainerStyled } from './PlanillaStyles.js';
 import EditDorsal from '../../components/FormacionesPlanilla/EditDorsal/EditDorsal.jsx';
-import Button from '../../components/UI/Button/Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleStateMatch } from '../../redux/Planillero/planilleroSlice.js';
 
