@@ -6,6 +6,8 @@ import { HiLifebuoy } from "react-icons/hi2";
 import { useSelector } from 'react-redux';
 
 const CardFinalPartido = () => {
+
+    //Logica conteo goles
     const actions = useSelector((state) => state.planillero.planilla.actions);
     console.log(actions);
     const [goalLocal, setGoalLocal] = useState(0);
@@ -27,6 +29,9 @@ const CardFinalPartido = () => {
         setGoalVisit(visitGoals);
     }, [actions]);
 
+    //Logica manejo estado partido
+    const matchState = useSelector((state) => state.planillero.timeMatch.matchState)
+
     return (
         <CardPartidoWrapper>
             <CardPartidoTitles>
@@ -40,7 +45,15 @@ const CardFinalPartido = () => {
                 </CardPartidoTeam>
                 <CardPartidoInfo>
                     <h4>{goalLocal}-{goalVisit}</h4>
-                    <span>Final</span>
+
+                    {matchState === null ? (
+                        <span>Por comenzar</span>
+                    ) : matchState === 'isStarted' ? (
+                        <span>En curso</span>
+                    ) : (
+                        <span>Final</span>
+                    )}
+
                 </CardPartidoInfo>
                 <CardPartidoTeam>
                     <img src={EscudoPuraQuimica} alt="Escudo Pura Química" />
@@ -50,14 +63,24 @@ const CardFinalPartido = () => {
             <CardPartidoDivider />
             <CardPartidoGoalsContainer>
                 <CardPartidoGoalsColumn>
-                    {actions.map((action, index) => {
-                        if (action.isLocalTeam && action.accion === 'Gol') {
-                            return (
-                                <h5 key={index}>{action.nombreJugador}</h5>
-                            );
-                        } else {
-                            return null;
-                        }
+                {actions.map((action, index) => {
+
+                    if (action.isLocalTeam && action.accion === 'Gol' && action.golDetails.penal === 'si') {
+                        return (
+                            <h5 key={index}>{action.nombreJugador} (p)</h5>
+                        );
+                    } else if (action.isLocalTeam && action.accion === 'Gol' && action.golDetails.enContra === 'si') {
+                        return (
+                            <h5 key={index}>{action.nombreJugador} (e.c)</h5>
+                        );
+                    }
+                    if (action.isLocalTeam && action.accion === 'Gol') {
+                        return (
+                            <h5 key={index}>{action.nombreJugador}</h5>
+                        );
+                    } else {
+                        return null;
+                    }
                     })}
                 </CardPartidoGoalsColumn>
                 <CardPartidoGoalsColumn>
@@ -65,6 +88,16 @@ const CardFinalPartido = () => {
                 </CardPartidoGoalsColumn>
                 <CardPartidoGoalsColumn className='visit'>
                     {actions.map((action, index) => {
+
+                        if (!action.isLocalTeam && action.accion === 'Gol' && action.golDetails.penal === 'si') {
+                            return (
+                                <h5 key={index}>{action.nombreJugador} (p)</h5>
+                            );
+                        } else if (!action.isLocalTeam && action.accion === 'Gol' && action.golDetails.enContra === 'si') {
+                            return (
+                                <h5 key={index}>{action.nombreJugador} (e.c)</h5>
+                            );
+                        }
                         if (!action.isLocalTeam && action.accion === 'Gol') {
                             return (
                                 <h5 key={index}>{action.nombreJugador}</h5>

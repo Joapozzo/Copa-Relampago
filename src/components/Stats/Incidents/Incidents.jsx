@@ -22,6 +22,18 @@ const renderActionIcon = (action) => {
     }
   };
 
+const isGolEnContra = (actions) => {
+  if (actions.accion === 'Gol' && actions.golDetails.enContra === 'si') {
+    return
+  }
+}
+
+const isGolPenal = (actions) => {
+  if (actions.accion === 'Gol' && actions.golDetails.penal === 'si') {
+    return
+  }
+}
+
   return (
     <IndicentsWrapper>
         <h3>Incidencias</h3>
@@ -44,8 +56,7 @@ const renderActionIcon = (action) => {
           <IncidentLocal key={index} className={action.isLocalTeam ? 'local' : 'visit'}>
           <h3>{action.minuto}'</h3>
           {renderActionIcon(action)}
-          <h4>{action.nombreJugador}</h4> {/* Change to action.nombre */}
-          {/* {action.resultado && <p>({action.resultado})</p>} */}
+          <h4>{action.nombreJugador}</h4>
         </IncidentLocal>
         ))}
 

@@ -9,7 +9,7 @@ const Select2 = ({ localTeam, currentActionPlayerId, onSelect }) => {
     const filteredPlayers = listPlayers
         .find(team => team.Local === localTeam)
         .Player
-        .filter(player => player.ID !== currentActionPlayerId); // Excluir al jugador de la acción
+        .filter(player => player.status && player.ID !== currentActionPlayerId); // Excluir al jugador de la acción
 
     const handlePlayerSelect = (event) => {
         const playerId = event.target.value;

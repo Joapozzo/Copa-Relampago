@@ -52,6 +52,9 @@ const FormacionesPlanilla = () => {
         dispatch(toggleHiddenDorsal());
     };
 
+    //Verificar que el estado de lpartido sea el correcto para hacer accion
+    const stateMatch = useSelector((state) => state.planillero.timeMatch.matchState)
+    
     return (
         <FormacionesPlanillaWrapper>
             <FormacionesPlanillaTitle>
@@ -85,7 +88,7 @@ const FormacionesPlanilla = () => {
                         <tr key={player.ID} className='bodyRow'>
                             <td
                                 className={`dorsal ${!player.Dorsal && 'disabled'}`}
-                                onClick={player.Dorsal ? () => handleNext(player.ID, player.Dorsal, player.Nombre) : null}
+                                onClick={stateMatch === 'isStarted' && player.Dorsal ? () => handleNext(player.ID, player.Dorsal, player.Nombre) : null}
                             >
                                 {player.Dorsal}
                             </td>

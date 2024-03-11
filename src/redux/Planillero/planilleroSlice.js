@@ -24,6 +24,9 @@ const initialState = {
     hidden: true,
     newTime: ''
   },
+  timeMatch: {
+    matchState: null,
+  },
 };
 
 const planilleroSlice = createSlice({
@@ -85,16 +88,19 @@ const planilleroSlice = createSlice({
     
       state.planilla.actions.push(nuevaAccion);
       
-      // Ordenar las acciones por minuto
       state.planilla.actions.sort((a, b) => {
-        if (a.minuto < b.minuto) {
+        const minuteA = parseInt(a.minuto);
+        const minuteB = parseInt(b.minuto);
+        
+        if (minuteA < minuteB) {
           return -1;
         }
-        if (a.minuto > b.minuto) {
+        if (minuteA > minuteB) {
           return 1;
         }
         return 0;
       });
+      
     },         
     setNamePlayerSelected: (state, action) => {
       state.dorsal.playerSelectedName = action.payload;
@@ -102,10 +108,20 @@ const planilleroSlice = createSlice({
     setNewAssist: (state, action) => {
       state.asist.dataGol = action.payload;
     },
+    toggleStateMatch: (state) => {
+      if (state.timeMatch.matchState === null) {
+        state.timeMatch.matchState = 'isStarted';
+      } else if (state.timeMatch.matchState === 'isStarted') {
+        state.timeMatch.matchState = 'isFinish';
+      } else {
+        state.timeMatch.matchState = 'finish';
+      }
+    }
   }
 });
 
 export const {
+  toggleMatchTimes,
   toggleHiddenDorsal,
   setNewDorsal,
   toggleHiddenAsist,
@@ -122,6 +138,7 @@ export const {
   handleConfirm,
   setNamePlayerSelected,
   setNewAssist,
+  toggleStateMatch,
 } = planilleroSlice.actions;
 
 export default planilleroSlice.reducer;
