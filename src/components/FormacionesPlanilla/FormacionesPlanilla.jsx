@@ -53,7 +53,7 @@ const FormacionesPlanilla = () => {
     };
 
     //Verificar que el estado de lpartido sea el correcto para hacer accion
-    const stateMatch = useSelector((state) => state.planillero.timeMatch.matchState)
+    const stateMatch = useSelector((state) => state.planillero.timeMatch?.matchState)
     
     return (
         <FormacionesPlanillaWrapper>
