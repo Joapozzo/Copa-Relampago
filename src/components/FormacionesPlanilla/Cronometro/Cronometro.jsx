@@ -8,7 +8,7 @@ function Cronometro() {
   const [initial, setInitial] = useState(null);
   const [paused, setPaused] = useState(true);
 
-  const matchState = useSelector((state) => state.planillero.timeMatch?.matchState);
+  const matchState = useSelector((state) => state.planillero.timeMatch.matchState);
 
   const tick = () => {
     if (!paused) {

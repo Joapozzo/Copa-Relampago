@@ -16,7 +16,7 @@ import { toggleStateMatch } from '../../redux/Planillero/planilleroSlice.js';
 const Planilla = () => {
 
     const dispatch = useDispatch();
-    const estadoPartido = useSelector((state) => state.planillero.timeMatch?.matchState);
+    const estadoPartido = useSelector((state) => state.planillero.timeMatch.matchState);
 
     const match = useSelector((state) => state.match);
     const [canStartMatch, setCanStartMatch] = useState(false);
