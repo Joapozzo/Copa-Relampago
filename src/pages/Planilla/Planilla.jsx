@@ -8,10 +8,12 @@ import ActionConfirmed from '../../components/FormacionesPlanilla/ActionConfirme
 import ActionTime from '../../components/FormacionesPlanilla/ActionTime/ActionTime';
 import ActionAsisted from '../../components/FormacionesPlanilla/ActionAsisted/ActionAsisted';
 import Cronometro from '../../components/FormacionesPlanilla/Cronometro/Cronometro.jsx';
-import { ButtonContainer, ButtonMatch, PlanillaContainerStyled } from './PlanillaStyles.js';
+import { ButtonContainer, ButtonMatch, InputDescContainer, PlanillaContainerStyled } from './PlanillaStyles.js';
 import EditDorsal from '../../components/FormacionesPlanilla/EditDorsal/EditDorsal.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleStateMatch } from '../../redux/Planillero/planilleroSlice.js';
+import ModalConfirmation from '../../components/Stats/Incidents/ModalConfirmation.jsx';
+import InputLong from '../../components/UI/Input/InputLong.jsx';
 
 const Planilla = () => {
 
@@ -49,6 +51,14 @@ const Planilla = () => {
                 <FormacionesPlanilla/>
                 <Incidents/>
 
+                <InputDescContainer>
+                    <p>Escriba aquí alguna observacion o descripción del partido</p>
+                    <InputLong/>
+                    <ButtonMatch>
+                        Enviar
+                    </ButtonMatch>
+                </InputDescContainer>
+
                 <ButtonContainer>
                     {estadoPartido === null && (
                         <ButtonMatch className='started' onClick={handleStartMatch}>
@@ -75,12 +85,14 @@ const Planilla = () => {
                         </ButtonMatch>
                     )}
                 </ButtonContainer>
-
+                
                 {/* Ventanas */}
                 <ActionConfirmed/>
                 <ActionAsisted/>
                 <ActionTime/>
                 <EditDorsal/>
+                <ModalConfirmation/>
+
             </MatchStatsWrapper>
         </PlanillaContainerStyled>
     );

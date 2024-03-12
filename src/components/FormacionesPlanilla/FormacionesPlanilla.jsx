@@ -81,6 +81,7 @@ const FormacionesPlanilla = () => {
                         <th>Dorsal</th>
                         <th>DNI</th>
                         <th>Nombre</th>
+                        <th>Editar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,7 +93,7 @@ const FormacionesPlanilla = () => {
                             >
                                 {player.Dorsal}
                             </td>
-                            <td className='dni'>{player.DNI}</td>
+                            <td className='text'>{player.DNI}</td>
                             <td className='text'>{player.Nombre}</td>
                             <td className='edit'>
                                 <HiMiniPencil

@@ -9,12 +9,15 @@ import { toggleHiddenDorsal } from '../../../redux/Planillero/planilleroSlice'
 import { setDorsal } from '../../../redux/Matches/matchesSlice';
 
 const EditDorsal = () => {
+    //Open Close
     const dispatch = useDispatch();
     const hiddenDorsal = useSelector((state) => state.planillero.dorsal.hidden);
 
+    //Estado para manejar numero
     const playerSelected = useSelector((state) => state.planillero.dorsal.playerSelected);
     const [dorsalValue, setDorsalValue] = useState('');
 
+    //Nombre del jugador seleccionado
     const playerNameSelected = useSelector((state) => state.planillero.dorsal.playerSelectedName);
     
     //Logica validar solo numeros

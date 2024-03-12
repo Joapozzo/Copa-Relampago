@@ -25,8 +25,17 @@ const initialState = {
     newTime: ''
   },
   timeMatch: {
-    matchState: null,
+    matchState: null
   },
+  modal: {
+    hidden: true
+  },
+  actionToDelete: null,
+  accionEdit: {
+    accion: null,
+    dataGol: {},
+    time: null,
+  }
 };
 
 const planilleroSlice = createSlice({
@@ -81,7 +90,7 @@ const planilleroSlice = createSlice({
         nuevaAccion.isLocalTeam = !isLocalTeam;
       }
 
-      // Si la acción es un gol, agregamos la información adicional
+      // Si la acción es un gol, agregamos información adicional
       if (accion === 'Gol') {
         nuevaAccion.golDetails = state.asist.dataGol;
       }
@@ -116,7 +125,38 @@ const planilleroSlice = createSlice({
       } else {
         state.timeMatch.matchState = 'finish';
       }
-    }
+    },
+    toggleHiddenModal: (state) => {
+      state.modal = !state.modal;
+    },
+    setActionToDelete: (state, action) => {
+      state.actionToDelete = action.payload;
+    },
+    deleteAction: (state, action) => {
+
+      const { editedAction, isEdit } = action.payload;
+
+      if (isEdit) {
+        state.planilla.actions = state.planilla.actions.map(act => {
+          if (areActionsEqual(act, state.actionToDelete)) {
+            return { ...editedAction };
+          }
+          return act;
+        });
+      } else {
+        state.planilla.actions = state.planilla.actions.filter(act => !areActionsEqual(act, state.actionToDelete));
+      }
+      state.actionToDelete = null;
+
+      function areActionsEqual(action1, action2) {
+        if (!isEdit) {
+          return action1.idJugador === action2.idJugador && action1.minuto === action2.minuto;
+        } else {
+          return action1.idJugador === action2.idJugador
+        }
+
+      }
+    },
   }
 });
 
@@ -139,6 +179,9 @@ export const {
   setNamePlayerSelected,
   setNewAssist,
   toggleStateMatch,
+  toggleHiddenModal,
+  setActionToDelete,
+  deleteAction,
 } = planilleroSlice.actions;
 
 export default planilleroSlice.reducer;

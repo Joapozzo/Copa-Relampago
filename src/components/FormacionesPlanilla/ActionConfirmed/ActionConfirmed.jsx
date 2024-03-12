@@ -8,6 +8,7 @@ import { setActionPlayer, setNavigationSource, setPlayerSelectedAction, toggleHi
 import { toggleHiddenTime, toggleHiddenAsist } from '../../../redux/Planillero/planilleroSlice';
 
 const ActionConfirmed = () => {
+    //Toggle
     const dispatch = useDispatch();
     const hiddenActions = useSelector((state) => state.planillero.planilla.hidden);
 
@@ -16,8 +17,6 @@ const ActionConfirmed = () => {
     const handleOptionChange = (option) => {
         setSelectedOption(option);
     };
-
-    // const player = useSelector((state) => state.match.player && state.match.player.ID);
 
     //Avisar que selecciono el planillero
     const handleNext = () => {
@@ -40,7 +39,6 @@ const ActionConfirmed = () => {
             default:
                 break;
         }
-
         dispatch(toggleHiddenAction());
     };
     

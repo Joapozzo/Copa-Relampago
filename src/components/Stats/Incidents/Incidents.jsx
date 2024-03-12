@@ -1,9 +1,11 @@
 import React from 'react'
-import { IncidentLocal, IndicentsContainer, IndicentsWrapper } from './IndicentsStyles'
+import { IncidentLocal, IndicentsContainer, IndicentsWrapper, IconContainer } from './IndicentsStyles'
 import { AlignmentDivider, AlignmentTeam, AlignmentTeams } from '../Alignment/AlignmentStyles'
 import EscudoCelta from '/Escudos/celta-de-vino.png'
 import { HiLifebuoy, HiMiniStop, HiStar} from "react-icons/hi2";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { HiMiniPencil, HiOutlineXCircle  } from "react-icons/hi2";
+import { toggleHiddenModal, setActionToDelete, toggleHiddenAction } from '../../../redux/Planillero/planilleroSlice';
 
 const Incidents = () => {
 
@@ -22,6 +24,7 @@ const renderActionIcon = (action) => {
     }
   };
 
+  //Logica detalle del gol
 const isGolEnContra = (actions) => {
   if (actions.accion === 'Gol' && actions.golDetails.enContra === 'si') {
     return
@@ -32,6 +35,19 @@ const isGolPenal = (actions) => {
   if (actions.accion === 'Gol' && actions.golDetails.penal === 'si') {
     return
   }
+}
+
+// Logica editar detalle de accion o borrar accion
+const dispatch = useDispatch()
+
+const handleConfirmDelete = (action) => {
+  dispatch(setActionToDelete(action))
+  dispatch(toggleHiddenModal())
+}
+
+const handleEditAccion = (action) => {
+  dispatch(setActionToDelete(action))
+  dispatch(toggleHiddenAction())
 }
 
   return (
@@ -57,6 +73,14 @@ const isGolPenal = (actions) => {
           <h3>{action.minuto}'</h3>
           {renderActionIcon(action)}
           <h4>{action.nombreJugador}</h4>
+
+          <IconContainer>
+            <HiMiniPencil onClick={() => handleEditAccion(action)}/>
+            <HiOutlineXCircle 
+            className='delete'
+            onClick={() => handleConfirmDelete(action)}
+            />
+          </IconContainer>
         </IncidentLocal>
         ))}
 

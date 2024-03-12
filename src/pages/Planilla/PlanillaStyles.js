@@ -33,3 +33,24 @@ export const ButtonMatch = styled.button`
         cursor: not-allowed
     }
 `
+
+export const InputDescContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 100%;
+    gap: 10px;
+    background-color: var(--gray-300);
+    padding: 20px;
+    border-radius: 15px;
+
+    button {
+        width: 20%;
+    }
+
+    input {
+        height: 150px;
+        background-color: var(--gray-400);
+        border-radius: 15px;
+    }
+`

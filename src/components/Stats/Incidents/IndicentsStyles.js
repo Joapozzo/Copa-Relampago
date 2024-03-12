@@ -55,3 +55,19 @@ export const IncidentLocal = styled.div`
         color: yellow;
     }
 `
+
+export const IconContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    i,svg {
+        font-size: 16px;
+    }
+
+    .delete {
+        color: red;
+        font-size: 19px;
+    }
+`

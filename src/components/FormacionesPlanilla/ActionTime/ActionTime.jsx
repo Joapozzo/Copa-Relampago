@@ -5,12 +5,11 @@ import { AlignmentDivider } from '../../Stats/Alignment/AlignmentStyles';
 import { HiArrowLeft } from "react-icons/hi2";
 import Input2 from '../../UI/Input/Input2';
 
-import { setNewTime, toggleHiddenTime, toggleHiddenAction, toggleHiddenAsist, handleConfirm } from '../../../redux/Planillero/planilleroSlice';
+import { setNewTime, toggleHiddenTime, toggleHiddenAction, toggleHiddenAsist, handleConfirm, deleteAction } from '../../../redux/Planillero/planilleroSlice';
 
 const ActionConfirmed = () => {
 
     const reviewDataGol = useSelector((state) => state.planillero.asist.dataGol)
-
 
     // Logica de navegacion
     const dispatch = useDispatch();
@@ -43,7 +42,10 @@ const ActionConfirmed = () => {
     const { newTime } = useSelector((state) => state.planillero.planillaTime)
     const actions = useSelector((state) => state.planillero.planilla.actions)
 
+    const actionToDelete = useSelector((state) => state.planillero.actionToDelete)
+
     const handleTimeConfirm = () => {
+        //si actionToDelelte === null
         dispatch(setNewTime(inputValue))
         const actionData = {
             isLocalTeam: localTeam,
@@ -54,10 +56,10 @@ const ActionConfirmed = () => {
             minuto: newTime
         }
 
-        // Agregar el tiempo a los datos totales
         actionData.minuto = inputValue;
+        dispatch(handleConfirm(actionData));
+        // dispatch(deleteAction({ editedAction: actionData, isEdit: true }));
 
-        dispatch(handleConfirm(actionData))
         dispatch(toggleHiddenTime())
         setInputValue('')
     }

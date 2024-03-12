@@ -9,7 +9,6 @@ const CardFinalPartido = () => {
 
     //Logica conteo goles
     const actions = useSelector((state) => state.planillero.planilla.actions);
-    console.log(actions);
     const [goalLocal, setGoalLocal] = useState(0);
     const [goalVisit, setGoalVisit] = useState(0);
 
@@ -30,7 +29,7 @@ const CardFinalPartido = () => {
     }, [actions]);
 
     //Logica manejo estado partido
-    const matchState = useSelector((state) => state.planillero.timeMatch?.matchState);
+    const matchState = useSelector((state) => state.planillero.timeMatch.matchState);
 
     return (
         <CardPartidoWrapper>

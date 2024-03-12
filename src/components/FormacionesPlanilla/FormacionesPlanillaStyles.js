@@ -41,24 +41,33 @@ export const TablePlanillaWrapper = styled.table`
     background-color: var(--gray-300);
     width: 100%;
     border-collapse: collapse;
+    display: flex;
+    flex-direction: column;
 
     td, th {
         padding: 5px;
     }
     th {
         color: var(--gray-200);
-        text-align: start;
-        &.visit {
-            text-align: end;
-        }
+    }
+
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    tbody tr {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
     }
 
     td {
-        text-align: start;
+        padding-bottom: 10px;
+        text-align: end;
 
-        &.visit {
-            text-align: end;
-        }
         &.edit {
             color: var(--green);
             cursor: pointer;
@@ -70,9 +79,8 @@ export const TablePlanillaWrapper = styled.table`
         }
     }
 
-
-
     .dorsal {
+        min-width: 60px;
         background: white;
         color: var(--gray-300);
         font-weight: 700;
@@ -83,6 +91,8 @@ export const TablePlanillaWrapper = styled.table`
     }
 
     .text {
+        text-align: center;
+        min-width: 100px;
         font-weight: 600;
     }
 `;

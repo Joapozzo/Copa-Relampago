@@ -108,3 +108,7 @@ export const AssistOptContainer = styled.div`
     display: flex;
     gap: 5px;
 `
+export const ButtonContainer = styled.div`
+    display: flex;
+    gap: 10px;
+`
