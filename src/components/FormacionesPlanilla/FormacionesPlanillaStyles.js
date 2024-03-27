@@ -45,7 +45,7 @@ export const TablePlanillaWrapper = styled.table`
     flex-direction: column;
 
     td, th {
-        padding: 5px;
+        padding: 10px;
     }
     th {
         color: var(--gray-200);
@@ -65,18 +65,34 @@ export const TablePlanillaWrapper = styled.table`
     }
 
     td {
-        padding-bottom: 10px;
         text-align: end;
-
-        &.edit {
-            color: var(--green);
-            cursor: pointer;
-        }
 
         &.disabled{
             opacity: 0.5;
             pointer-events: none;
         }
+    
+    &.tdActions {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        .edit {
+            color: var(--green);
+            cursor: pointer;
+        }
+
+        .delete {
+            color: red;
+            cursor: pointer;
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    }
+
     }
 
     .dorsal {

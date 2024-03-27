@@ -98,7 +98,7 @@ const ActionAsisted = () => {
                     <ActionsContainer>
                         <OptionGolWrapper>
                             <OptionGolContainer>
-                                <h4>El gol fue de penal?</h4>
+                                <h4>¿El gol fue de penal?</h4>
                                 <AssistOptContainer>
                                     <input 
                                         type="radio"
@@ -112,7 +112,7 @@ const ActionAsisted = () => {
                             </OptionGolContainer>
 
                             <OptionGolContainer>
-                                <h4>El gol fue en contra?</h4>
+                                <h4>¿El gol fue en contra?</h4>
                                 <AssistOptContainer>
                                     <input 
                                         type="radio"

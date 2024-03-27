@@ -5,7 +5,7 @@ import EscudoCelta from '/Escudos/celta-de-vino.png'
 import { HiLifebuoy, HiMiniStop, HiStar} from "react-icons/hi2";
 import { useDispatch, useSelector } from 'react-redux';
 import { HiMiniPencil, HiOutlineXCircle  } from "react-icons/hi2";
-import { toggleHiddenModal, setActionToDelete, toggleHiddenAction } from '../../../redux/Planillero/planilleroSlice';
+import { toggleHiddenModal, setActionToDelete, toggleHiddenAction, setCurrentStateModal, setCurrentIdDorsalDelete } from '../../../redux/Planillero/planilleroSlice';
 
 const Incidents = () => {
 
@@ -41,8 +41,9 @@ const isGolPenal = (actions) => {
 const dispatch = useDispatch()
 
 const handleConfirmDelete = (action) => {
-  dispatch(setActionToDelete(action))
   dispatch(toggleHiddenModal())
+  dispatch(setActionToDelete(action))
+  dispatch(setCurrentStateModal('action'))
 }
 
 const handleEditAccion = (action) => {

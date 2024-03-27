@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputContainerStyled2, InputWrapper2 } from './InputSyles';
 
-const Input2 = ({ placeholder, children, type = "text", value, onChange, onValueChange }) => {
+const Input2 = ({ placeholder, children, type = "text", value, onChange, onValueChange, ref }) => {
     const handleChange = (e) => {
         if (onChange) {
             onChange(e); // Pasamos el evento completo al llamar a la función onChange si está definida
@@ -14,7 +14,7 @@ const Input2 = ({ placeholder, children, type = "text", value, onChange, onValue
     return (
         <InputContainerStyled2>
             {children}
-            <InputWrapper2 
+            <InputWrapper2
                 type={type} 
                 placeholder={placeholder}
                 value={value}

@@ -28,7 +28,11 @@ const initialState = {
     matchState: null
   },
   modal: {
-    hidden: true
+    hidden: true,
+    modalState: null,
+    dorsalDelete: null,
+    idDorsalDelete: null,
+    currentTeam: null,
   },
   actionToDelete: null,
   accionEdit: {
@@ -127,8 +131,8 @@ const planilleroSlice = createSlice({
       }
     },
     toggleHiddenModal: (state) => {
-      state.modal = !state.modal;
-    },
+      state.modal.hidden = !state.modal.hidden;
+    },    
     setActionToDelete: (state, action) => {
       state.actionToDelete = action.payload;
     },
@@ -157,6 +161,24 @@ const planilleroSlice = createSlice({
 
       }
     },
+    setCurrentStateModal: (state, action) => {
+      state.modal.modalState = action.payload;
+    },
+    setCurrentDorsalDelete: (state, action) => {
+      state.modal.dorsalDelete = action.payload;
+    },
+    setCurrentIdDorsalDelete: (state, action) => {
+      state.modal.idDorsalDelete = action.payload;
+    },
+    setCurrentCurrentTeamPlayerDelete: (state, action) => {
+      state.modal.currentTeam = action.payload;
+    },
+    eliminarAccionesPorDorsal: (state, action) => {
+      const { dorsal, isLocalTeam } = action.payload;
+      state.planilla.actions = state.planilla.actions.filter((accion) => {
+        return !(accion.dorsal === dorsal && accion.isLocalTeam === isLocalTeam);
+      });
+    },
   }
 });
 
@@ -182,6 +204,11 @@ export const {
   toggleHiddenModal,
   setActionToDelete,
   deleteAction,
+  setCurrentStateModal,
+  setCurrentDorsalDelete,
+  setCurrentIdDorsalDelete,
+  eliminarAccionesPorDorsal,
+  setCurrentCurrentTeamPlayerDelete,
 } = planilleroSlice.actions;
 
 export default planilleroSlice.reducer;

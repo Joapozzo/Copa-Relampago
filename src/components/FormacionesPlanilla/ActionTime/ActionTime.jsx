@@ -45,7 +45,6 @@ const ActionConfirmed = () => {
     const actionToDelete = useSelector((state) => state.planillero.actionToDelete)
 
     const handleTimeConfirm = () => {
-        //si actionToDelelte === null
         dispatch(setNewTime(inputValue))
         const actionData = {
             isLocalTeam: localTeam,
@@ -59,7 +58,6 @@ const ActionConfirmed = () => {
         actionData.minuto = inputValue;
         dispatch(handleConfirm(actionData));
         // dispatch(deleteAction({ editedAction: actionData, isEdit: true }));
-
         dispatch(toggleHiddenTime())
         setInputValue('')
     }

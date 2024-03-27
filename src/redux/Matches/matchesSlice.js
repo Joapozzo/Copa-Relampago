@@ -175,24 +175,32 @@ const matchesSlice = createSlice({
     name: 'match',
     initialState,
     reducers: {
-        setDorsal: (state, action) => {
-            const { playerId, dorsal } = action.payload;
+        manageDorsal: (state, action) => {
+            const { playerId, dorsal, assign } = action.payload;
             const playerTeam = state.find(team => team.Player.some(player => player.ID === playerId));
             const player = playerTeam.Player.find(player => player.ID === playerId);
-            const findDorsal = playerTeam.Player.find(player => player.Dorsal === dorsal);
             
-            if (!findDorsal && player) {
-                player.Dorsal = dorsal;
-                player.status = true
-                return;
+            if (player) {
+                if (assign) {
+                    // Asignar dorsal
+                    if (!playerTeam.Player.some(player => player.Dorsal === dorsal)) {
+                        player.Dorsal = dorsal;
+                        player.status = true;
+                    }
+                } else {
+                    // Eliminar dorsal
+                    if (player.Dorsal === dorsal) {
+                        player.Dorsal = '';
+                        player.status = false;
+                    }
+                }
             }
-            alert("Dorsal existente, ingrese otro");
         },
     }
 })
 
 export const {
-    setDorsal,
+    manageDorsal,
 } = matchesSlice.actions;
 
 export default matchesSlice.reducer

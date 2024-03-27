@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer } from '../ActionConfirmed/ActionConfirmedStyles';
+import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer, ErrorTextContainer, TextContainer } from '../ActionConfirmed/ActionConfirmedStyles';
 import { AlignmentDivider } from '../../Stats/Alignment/AlignmentStyles';
 import { HiArrowLeft } from "react-icons/hi2";
+import { HiMiniExclamationTriangle } from "react-icons/hi2";
 import Input2 from '../../UI/Input/Input2';
 
 import { toggleHiddenDorsal } from '../../../redux/Planillero/planilleroSlice'
-import { setDorsal } from '../../../redux/Matches/matchesSlice';
+import { manageDorsal} from '../../../redux/Matches/matchesSlice';
 
 const EditDorsal = () => {
+
     //Open Close
     const dispatch = useDispatch();
     const hiddenDorsal = useSelector((state) => state.planillero.dorsal.hidden);
-
+    
+    const toggleEditDorsal = () => {
+        dispatch(toggleHiddenDorsal())
+        setDorsalValue('')
+    }
+    
     //Estado para manejar numero
     const playerSelected = useSelector((state) => state.planillero.dorsal.playerSelected);
     const [dorsalValue, setDorsalValue] = useState('');
@@ -27,14 +34,33 @@ const EditDorsal = () => {
         }
     };
 
+    //Repeticion de dorsal
+    const [error, setError] = useState(null);
+    const initialState = useSelector((state) => state.match)
+    const isDorsalInUse = (playerId, dorsal) => {
+        const team = initialState.find(team => team.Player.some(player => player.ID === playerId));
+        return team.Player.some(player => player.Dorsal === dorsal);
+    };
+
     //Mandar al store del partido el numero y el id del jugador seleccionado
     const handleConfirm = () => {
-        if (playerSelected !== null) { 
-            dispatch(setDorsal({ playerId: playerSelected, dorsal: dorsalValue }));
+        if (playerSelected !== null) {
+                if (isDorsalInUse(playerSelected, dorsalValue)) {
+                    setError(true)
+                    setDorsalValue('');
+                } else {
+                    dispatch(manageDorsal({ playerId: playerSelected, dorsal: dorsalValue, assign: true  }))
+                    dispatch(toggleHiddenDorsal());
+                    setDorsalValue('');
+                }
         }
-        dispatch(toggleHiddenDorsal());
-        setDorsalValue('');
     };
+
+    useEffect(() => {
+        if (hiddenDorsal) {
+            setError(null);
+        }
+    }, [hiddenDorsal]);
 
     return (
         <>
@@ -42,7 +68,7 @@ const EditDorsal = () => {
                 <ActionConfirmedContainer>
                     <ActionConfirmedWrapper>
                         <ActionBack>
-                            <HiArrowLeft onClick={() => dispatch(toggleHiddenDorsal())}/>
+                            <HiArrowLeft onClick={toggleEditDorsal}/>
                             <p>Volver</p>
                         </ActionBack>
                         <ActionTitle>
@@ -50,14 +76,29 @@ const EditDorsal = () => {
                             <AlignmentDivider/>
                         </ActionTitle>
                         <ActionsContainer>
-                            <h4>Dorsal</h4>
+                            <TextContainer>
+                                <h4>Dorsal</h4>
+                                {
+                                    error && (
+                                    <ErrorTextContainer>
+                                    <HiMiniExclamationTriangle/>
+                                        <p>Dorsal existente. Por favor, ingrese otro.</p>
+                                    </ErrorTextContainer>
+                                    )
+                                }
+
+                                
+                            </TextContainer>
+
                             <Input2
                                 placeholder={"ej: 10"}
                                 value={dorsalValue}
-                                onValueChange={handleInputChange}  // Cambiado a onValueChange
+                                onValueChange={handleInputChange}
                             />
                         </ActionsContainer>
-                        <ActionNext onClick={handleConfirm}>
+                        <ActionNext
+                            className={!dorsalValue.trim() ? 'disabled' : ''}
+                            onClick={handleConfirm}>
                             Confirmar
                         </ActionNext>
                     </ActionConfirmedWrapper>

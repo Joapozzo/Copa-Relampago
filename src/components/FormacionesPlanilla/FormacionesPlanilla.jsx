@@ -4,9 +4,9 @@ import { FormacionesPlanillaTitle, FormacionesPlanillaWrapper, PlanillaButtons, 
 import { AlignmentDivider } from '../Stats/Alignment/AlignmentStyles';
 import EscudoCelta from '/Escudos/celta-de-vino.png';
 import EscudoPuraQuimica from '/Escudos/pura-quimica.png';
-import { HiMiniPencil } from "react-icons/hi2";
+import { HiMiniPencil, HiOutlineXCircle } from "react-icons/hi2";
 
-import { setNamePlayer, setPlayerSelected, setPlayerSelectedAction, setdorsalPlayer, toggleHiddenAction, toggleHiddenDorsal, setIsLocalTeam, setNamePlayerSelected } from '../../redux/Planillero/planilleroSlice';
+import { setNamePlayer, setPlayerSelected, setPlayerSelectedAction, setdorsalPlayer, toggleHiddenAction, toggleHiddenDorsal, setIsLocalTeam, setNamePlayerSelected, toggleHiddenModal, setCurrentStateModal, setCurrentDorsalDelete, setCurrentIdDorsalDelete, setCurrentCurrentTeamPlayerDelete } from '../../redux/Planillero/planilleroSlice';
 
 const FormacionesPlanilla = () => {
     const dispatch = useDispatch();
@@ -52,9 +52,18 @@ const FormacionesPlanilla = () => {
         dispatch(toggleHiddenDorsal());
     };
 
-    //Verificar que el estado de lpartido sea el correcto para hacer accion
+    //Verificar que el estado del partido sea el correcto para hacer accion
     const stateMatch = useSelector((state) => state.planillero.timeMatch.matchState)
     
+    //Eliminar dorsal del jugador seleccionado
+    const DeleteDorsalPlayer = (dorsal, id, team) => {
+        dispatch(toggleHiddenModal())
+        dispatch(setCurrentStateModal('dorsal'))
+        dispatch(setCurrentDorsalDelete(dorsal))
+        dispatch(setCurrentIdDorsalDelete(id))
+        dispatch(setCurrentCurrentTeamPlayerDelete(team))
+    }
+
     return (
         <FormacionesPlanillaWrapper>
             <FormacionesPlanillaTitle>
@@ -86,21 +95,30 @@ const FormacionesPlanilla = () => {
                 </thead>
                 <tbody>
                     {currentTeam && currentTeam.Player.map(player => (
-                        <tr key={player.ID} className='bodyRow'>
-                            <td
-                                className={`dorsal ${!player.Dorsal && 'disabled'}`}
-                                onClick={stateMatch === 'isStarted' && player.Dorsal ? () => handleNext(player.ID, player.Dorsal, player.Nombre) : null}
-                            >
-                                {player.Dorsal}
-                            </td>
-                            <td className='text'>{player.DNI}</td>
-                            <td className='text'>{player.Nombre}</td>
-                            <td className='edit'>
-                                <HiMiniPencil
-                                    onClick={() => handleEditDorsal(player.ID, player.Nombre)}
-                                />
-                            </td>
-                        </tr>
+                        <>
+                            <tr key={player.ID} className='bodyRow'>
+                                <td
+                                    className={`dorsal ${!player.Dorsal && 'disabled'}`}
+                                    onClick={stateMatch === 'isStarted' && player.Dorsal ? () => handleNext(player.ID, player.Dorsal, player.Nombre) : null}
+                                >
+                                    {player.Dorsal}
+                                </td>
+                                <td className='text'>{player.DNI}</td>
+                                <td className='text'>{player.Nombre}</td>
+                                <td className='tdActions'>
+                                    <HiMiniPencil
+                                        className='edit'
+                                        onClick={() => handleEditDorsal(player.ID, player.Nombre)}
+                                    />
+                                    <HiOutlineXCircle
+                                        className={`delete ${!player.Dorsal ? 'disabled' : ''}`}
+                                        onClick={() => DeleteDorsalPlayer(player.Dorsal, player.ID, currentTeam.Local)}
+                                    />
+                                </td>
+                            </tr>
+                            <br />
+                        </>
+
                     ))}
                 </tbody>
             </TablePlanillaWrapper>

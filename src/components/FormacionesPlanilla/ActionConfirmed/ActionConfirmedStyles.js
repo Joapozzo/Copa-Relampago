@@ -112,3 +112,16 @@ export const ButtonContainer = styled.div`
     display: flex;
     gap: 10px;
 `
+
+export const TextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+`
+export const ErrorTextContainer = styled.div`
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    gap: 5px;
+    color: red;
+`
