@@ -44,6 +44,12 @@ export const TablePlanillaWrapper = styled.table`
     display: flex;
     flex-direction: column;
 
+    tr{
+        &.playerEventual {
+            color: var(--yellow);  
+        }
+    }
+
     td, th {
         padding: 10px;
     }
@@ -83,7 +89,7 @@ export const TablePlanillaWrapper = styled.table`
         }
 
         .delete {
-            color: red;
+            color: var(--red);
             cursor: pointer;
         }
 
@@ -91,9 +97,7 @@ export const TablePlanillaWrapper = styled.table`
             pointer-events: none;
             opacity: 0.5;
         }
-    }
-
-    }
+    }}
 
     .dorsal {
         min-width: 60px;
@@ -112,3 +116,37 @@ export const TablePlanillaWrapper = styled.table`
         font-weight: 600;
     }
 `;
+
+export const PlayerEventContainer = styled.div`
+    padding: 10px 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    p {
+        cursor: pointer;
+        color: var(--gray-600);
+        position: relative;
+        transition: color 0.3s ease; 
+    }
+
+    p::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        width: 100%;
+        height: 2px;
+        background-color: transparent;
+        transition: background-color 0.3s ease;
+    }
+
+    p:hover {
+        color: var(--gray-800);
+    }
+
+    p:hover::after {
+        background-color: var(--green);
+    }
+`

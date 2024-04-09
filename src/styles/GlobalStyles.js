@@ -16,10 +16,12 @@ export const GlobalStyles = createGlobalStyle`
         --gray-500: #101011;
         --black: #121212;
         --yellow: #E2B000;
+        --red: #E72929;
     }
 
     html {
         scroll-behavior: smooth;
+        touch-action: manipulation;
     }
 
     img {

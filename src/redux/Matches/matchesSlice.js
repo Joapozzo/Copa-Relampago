@@ -12,6 +12,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -23,6 +24,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -34,6 +36,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -45,6 +48,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -56,6 +60,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -67,6 +72,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -78,6 +84,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -96,6 +103,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -107,6 +115,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -118,6 +127,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -129,6 +139,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -140,6 +151,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -151,6 +163,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -162,6 +175,7 @@ const initialState = [
                 DNI: "43450997",
                 Dorsal: '',
                 status: false,
+                eventual: false,
                 Action: {
                     Type: '',
                     Time: '',
@@ -196,11 +210,25 @@ const matchesSlice = createSlice({
                 }
             }
         },
+
+        addEventualPlayer: (state, action) => {
+            const { teamId, player } = action.payload;
+            const team = state.find(team => team.ID === teamId);
+            if (team) {
+                const eventualPlayersCounts = team.Player.filter(player => player.eventual).length;
+                if (eventualPlayersCounts < 3) {
+                    team.Player.push(player);
+                } else {
+                    return console.log('Limite de 3 jugadores eventuales');
+                }
+            }
+        }
     }
 })
 
 export const {
     manageDorsal,
+    addEventualPlayer,
 } = matchesSlice.actions;
 
 export default matchesSlice.reducer

@@ -20,6 +20,7 @@ export const IncidentLocal = styled.div`
     gap: 20px;
     padding: 10px 0;
     border-top: 1px solid var(--gray-200);
+    align-items: center;
 
     h3 {
         font-size: 10px;
@@ -48,7 +49,7 @@ export const IncidentLocal = styled.div`
     }
 
     .red {
-            color: red;
+        color: var(--red);
     }
 
     .yellow {
@@ -60,14 +61,14 @@ export const IconContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
 
     i,svg {
-        font-size: 16px;
+        font-size: 12px;
     }
 
     .delete {
-        color: red;
-        font-size: 19px;
+        color: var(--red);
+        font-size: 14px;
     }
 `

@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Toaster, toast } from 'react-hot-toast';
+
 import { MatchStatsContainer, MatchStatsWrapper } from '../MatchStats/MatchStatsStyles';
 import Section from '../../components/Section/Section';
 import CardFinalPartido from '../../components/Stats/CardFinalPartido/CardFinalPartido';
@@ -11,9 +13,10 @@ import Cronometro from '../../components/FormacionesPlanilla/Cronometro/Cronomet
 import { ButtonContainer, ButtonMatch, InputDescContainer, PlanillaContainerStyled } from './PlanillaStyles.js';
 import EditDorsal from '../../components/FormacionesPlanilla/EditDorsal/EditDorsal.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleStateMatch } from '../../redux/Planillero/planilleroSlice.js';
+import { setCurrentStateModal, toggleHiddenModal, toggleStateMatch } from '../../redux/Planillero/planilleroSlice.js';
 import ModalConfirmation from '../../components/Stats/Incidents/ModalConfirmation.jsx';
 import InputLong from '../../components/UI/Input/InputLong.jsx';
+import JugadoresEventuales from '../../components/FormacionesPlanilla/JugadoresEventuales/JugadoresEventuales.jsx';
 
 const Planilla = () => {
 
@@ -23,6 +26,7 @@ const Planilla = () => {
     const match = useSelector((state) => state.match);
     const [canStartMatch, setCanStartMatch] = useState(false);
 
+    //Funcion para validar que haya al menos 5 jugadores registrados en el partido
     useEffect(() => {
         const canStart = match.every(team => {
             const playersWithStatusTrue = team.Player.filter(player => player.status);
@@ -32,14 +36,29 @@ const Planilla = () => {
         setCanStartMatch(canStart);
     }, [match]);
 
+    //Manejar estados del partido
     const handleStartMatch = () => {
         if (canStartMatch) {
-            dispatch(toggleStateMatch());
+            if (estadoPartido === 'isStarted') {
+                dispatch(toggleHiddenModal())
+                dispatch(setCurrentStateModal('matchFinish'))
+            } else {
+                dispatch(toggleStateMatch());
+            }
         } else {
-            alert("Para comenzar el partido debe haber un mínimo de 5 jugadores por equipo.");
+            toast.error('Debe haber un mínimo de 5 jugadores por equipo registrados para comenzar');
         }
     }
 
+    //Toast para mensajes
+    const handleToastStartMatch = () => {
+        if (canStartMatch) {
+                toast.success('Partido comenzado', {
+                duration: 4000,
+            })
+        }
+    }
+    
     return (
         <PlanillaContainerStyled className='container'>
             <MatchStatsWrapper className='wrapper'>
@@ -61,7 +80,11 @@ const Planilla = () => {
 
                 <ButtonContainer>
                     {estadoPartido === null && (
-                        <ButtonMatch className='started' onClick={handleStartMatch}>
+                        <ButtonMatch className='started' 
+                        onClick={() => {
+                            handleToastStartMatch()
+                            handleStartMatch()
+                        }}>
                             Comenzar Partido
                         </ButtonMatch>
                     )}
@@ -91,9 +114,11 @@ const Planilla = () => {
                 <ActionAsisted/>
                 <ActionTime/>
                 <EditDorsal/>
+                <JugadoresEventuales/>
                 <ModalConfirmation/>
 
             </MatchStatsWrapper>
+            <Toaster/>
         </PlanillaContainerStyled>
     );
 }

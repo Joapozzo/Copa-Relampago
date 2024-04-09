@@ -39,7 +39,11 @@ const initialState = {
     accion: null,
     dataGol: {},
     time: null,
-  }
+  },
+  playerEvent: {
+    hidden: true,
+    idPlayerTeam: null,
+  },
 };
 
 const planilleroSlice = createSlice({
@@ -179,6 +183,12 @@ const planilleroSlice = createSlice({
         return !(accion.dorsal === dorsal && accion.isLocalTeam === isLocalTeam);
       });
     },
+    toggleHiddenPlayerEvent: (state) => {
+      state.playerEvent.hidden = !state.playerEvent.hidden
+    },
+    handleTeamPlayer: (state, action) => {
+      state.playerEvent.idPlayerTeam = action.payload
+    }
   }
 });
 
@@ -209,6 +219,8 @@ export const {
   setCurrentIdDorsalDelete,
   eliminarAccionesPorDorsal,
   setCurrentCurrentTeamPlayerDelete,
+  toggleHiddenPlayerEvent,
+  handleTeamPlayer,
 } = planilleroSlice.actions;
 
 export default planilleroSlice.reducer;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionOptionContainer, ActionTitle, ActionsContainer } from './ActionConfirmedStyles';
+import { ActionBack, ActionBackContainer, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionOptionContainer, ActionTitle, ActionsContainer, IconClose } from './ActionConfirmedStyles';
 import { AlignmentDivider } from '../../Stats/Alignment/AlignmentStyles';
-import { HiArrowLeft } from "react-icons/hi2";
+import { HiArrowLeft, HiMiniXMark } from "react-icons/hi2";
 
 import { setActionPlayer, setNavigationSource, setPlayerSelectedAction, toggleHiddenAction } from '../../../redux/Planillero/planilleroSlice';
 import { toggleHiddenTime, toggleHiddenAsist } from '../../../redux/Planillero/planilleroSlice';
@@ -11,6 +11,13 @@ const ActionConfirmed = () => {
     //Toggle
     const dispatch = useDispatch();
     const hiddenActions = useSelector((state) => state.planillero.planilla.hidden);
+
+    //Cerrar componente clickeando en el overlay
+    const handleOverlayClick = (event) => {
+        if (event.target === event.currentTarget) {
+            dispatch(toggleHiddenAction());
+        }
+    };
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -45,12 +52,19 @@ const ActionConfirmed = () => {
     return (
         <>
         {!hiddenActions && (
-            <ActionConfirmedContainer>
+            <ActionConfirmedContainer onClick={handleOverlayClick}>
                 <ActionConfirmedWrapper>
-                    <ActionBack>
-                        <HiArrowLeft onClick={() => dispatch(toggleHiddenAction())}/>
-                        <p>Volver</p>
+                    <ActionBackContainer>
+                        <ActionBack>
+                            <HiArrowLeft onClick={() => dispatch(toggleHiddenAction())}/>
+                            <p>Volver</p>
                     </ActionBack>
+                    <IconClose>
+                        <HiMiniXMark 
+                        onClick={() => dispatch(toggleHiddenAction())}/>
+                    </IconClose>
+                    </ActionBackContainer>
+
                     <ActionTitle>
                         <h3>Seleccione una acción</h3> 
                         <AlignmentDivider/>

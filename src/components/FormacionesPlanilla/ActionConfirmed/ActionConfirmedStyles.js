@@ -27,6 +27,11 @@ export const ActionTitle = styled.div`
     flex-direction: column;
     gap: 10px;
     width: 100%;
+
+    p {
+        font-size: 12px;
+        color: var(--gray-200);
+    }
 `
 
 export const ActionsContainer = styled.div`
@@ -34,6 +39,10 @@ export const ActionsContainer = styled.div`
     align-items: start;
     flex-direction: column;
     gap: 15px;
+
+    &.large {
+        width:100%;
+    }
 `
 
 export const OptionGolWrapper = styled.div`
@@ -104,6 +113,17 @@ export const ActionBack = styled.div`
         cursor: pointer;
     }
 `
+export const ActionBackContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width:100%;
+    align-items: center;
+`
+export const IconClose = styled.div`
+    color: var(--red);
+    cursor: pointer;
+`
+
 export const AssistOptContainer = styled.div`
     display: flex;
     gap: 5px;
@@ -123,5 +143,16 @@ export const ErrorTextContainer = styled.div`
     font-size: 12px;
     align-items: center;
     gap: 5px;
-    color: red;
+    color: var(--red);
+`
+export const TitleInputContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+    width: 100%;
+
+    p {
+        font-size: 12px;
+    }
 `

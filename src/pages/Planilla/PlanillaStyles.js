@@ -28,8 +28,8 @@ export const ButtonMatch = styled.button`
     }
 
     &&.finish {
-        background: red;
-        border: 1px solid red;
+        background: var(--red);
+        border: 1px solid var(--red);
         cursor: not-allowed
     }
 `

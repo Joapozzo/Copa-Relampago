@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormacionesPlanillaTitle, FormacionesPlanillaWrapper, PlanillaButtons, TablePlanillaWrapper } from './FormacionesPlanillaStyles';
+import { FormacionesPlanillaTitle, FormacionesPlanillaWrapper, PlanillaButtons, PlayerEventContainer, TablePlanillaWrapper } from './FormacionesPlanillaStyles';
 import { AlignmentDivider } from '../Stats/Alignment/AlignmentStyles';
 import EscudoCelta from '/Escudos/celta-de-vino.png';
 import EscudoPuraQuimica from '/Escudos/pura-quimica.png';
 import { HiMiniPencil, HiOutlineXCircle } from "react-icons/hi2";
 
-import { setNamePlayer, setPlayerSelected, setPlayerSelectedAction, setdorsalPlayer, toggleHiddenAction, toggleHiddenDorsal, setIsLocalTeam, setNamePlayerSelected, toggleHiddenModal, setCurrentStateModal, setCurrentDorsalDelete, setCurrentIdDorsalDelete, setCurrentCurrentTeamPlayerDelete } from '../../redux/Planillero/planilleroSlice';
+import { setNamePlayer, setPlayerSelected, setPlayerSelectedAction, setdorsalPlayer, toggleHiddenAction, toggleHiddenDorsal, setIsLocalTeam, setNamePlayerSelected, toggleHiddenModal, setCurrentStateModal, setCurrentDorsalDelete, setCurrentIdDorsalDelete, setCurrentCurrentTeamPlayerDelete, handleTeamPlayer, toggleHiddenPlayerEvent } from '../../redux/Planillero/planilleroSlice';
+import { Toaster, toast } from 'react-hot-toast';
 
 const FormacionesPlanilla = () => {
     const dispatch = useDispatch();
     const [activeButton, setActiveButton] = useState('local');
+    const initialState = useSelector((state) => state.match) || [];
+    const [initialized, setInitialized] = useState(false);
 
+    //Logica para cargar por defecto el id del equipo local
+    useEffect(() => {
+        // Verificar si initialState tiene algún equipo local
+        const selectedTeam = initialState.find(team => team.Local === true);
+        if (!initialized && selectedTeam) {
+            // Establecer el equipo local solo en la primera renderización
+            setActiveButton('local');
+            dispatch(handleTeamPlayer(selectedTeam.ID));
+            setInitialized(true);
+        }
+    }, [initialState, initialized, dispatch]);
+
+    //Mandar id del jugador donde se quiere agregar
     const handleButtonClick = (buttonType) => {
         setActiveButton(buttonType);
+        const selectedTeam = initialState.find(team => team.Local === (buttonType === 'local'));
+        if (selectedTeam) {
+        dispatch(handleTeamPlayer(selectedTeam.ID))
+        }
     };
 
     //Logica toggle local-visita
@@ -64,6 +84,11 @@ const FormacionesPlanilla = () => {
         dispatch(setCurrentCurrentTeamPlayerDelete(team))
     }
 
+    //Toggle modal de player eventual
+    const handleModalPlayerEventual = () => {
+        dispatch(toggleHiddenPlayerEvent())
+    }
+
     return (
         <FormacionesPlanillaWrapper>
             <FormacionesPlanillaTitle>
@@ -95,11 +120,18 @@ const FormacionesPlanilla = () => {
                 </thead>
                 <tbody>
                     {currentTeam && currentTeam.Player.map(player => (
-                        <>
-                            <tr key={player.ID} className='bodyRow'>
+                            <tr key={player.ID} className={player.eventual ? 'playerEventual' : ''}>
                                 <td
                                     className={`dorsal ${!player.Dorsal && 'disabled'}`}
-                                    onClick={stateMatch === 'isStarted' && player.Dorsal ? () => handleNext(player.ID, player.Dorsal, player.Nombre) : null}
+                                    onClick={ () => {
+                                            if (stateMatch !== 'isStarted') {
+                                            toast.error('Debe comenzar el partido para realizar acciones')
+                                            return;
+                                        }
+                                            if (player.Dorsal) {
+                                            handleNext(player.ID, player.Dorsal, player.Nombre)
+                                        }}
+                                    }
                                 >
                                     {player.Dorsal}
                                 </td>
@@ -116,12 +148,15 @@ const FormacionesPlanilla = () => {
                                     />
                                 </td>
                             </tr>
-                            <br />
-                        </>
-
                     ))}
                 </tbody>
             </TablePlanillaWrapper>
+            <PlayerEventContainer>
+                        <p
+                        onClick={handleModalPlayerEventual}
+                        >Añadir jugadores eventuales</p>
+                    </PlayerEventContainer>
+            <Toaster/>
         </FormacionesPlanillaWrapper>
     );
 };

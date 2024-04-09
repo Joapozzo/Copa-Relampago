@@ -44,5 +44,6 @@ export const InputWrapper2 = styled.input`
     &.disabled {
     opacity: 0.5;
     pointer-events: none;
-    cursor: not-allowed;}
+    cursor: not-allowed;
+    }
 `

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Toaster, toast } from 'react-hot-toast';
+
 import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer, ErrorTextContainer, TextContainer } from '../ActionConfirmed/ActionConfirmedStyles';
 import { AlignmentDivider } from '../../Stats/Alignment/AlignmentStyles';
 import { HiArrowLeft } from "react-icons/hi2";
@@ -47,6 +49,7 @@ const EditDorsal = () => {
         if (playerSelected !== null) {
                 if (isDorsalInUse(playerSelected, dorsalValue)) {
                     setError(true)
+                    toast.error('Dorsal existente, ingrese otro')
                     setDorsalValue('');
                 } else {
                     dispatch(manageDorsal({ playerId: playerSelected, dorsal: dorsalValue, assign: true  }))
@@ -56,6 +59,14 @@ const EditDorsal = () => {
         }
     };
 
+    //Cerrar componente clickeando en el overlay
+    const handleOverlayClick = (event) => {
+        if (event.target === event.currentTarget) {
+            toggleEditDorsal();
+        }
+    };
+
+    //Mostrar error textual cuando se repite dorsal
     useEffect(() => {
         if (hiddenDorsal) {
             setError(null);
@@ -65,7 +76,7 @@ const EditDorsal = () => {
     return (
         <>
             {!hiddenDorsal && (
-                <ActionConfirmedContainer>
+                <ActionConfirmedContainer onClick={handleOverlayClick}>
                     <ActionConfirmedWrapper>
                         <ActionBack>
                             <HiArrowLeft onClick={toggleEditDorsal}/>
@@ -86,10 +97,7 @@ const EditDorsal = () => {
                                     </ErrorTextContainer>
                                     )
                                 }
-
-                                
                             </TextContainer>
-
                             <Input2
                                 placeholder={"ej: 10"}
                                 value={dorsalValue}
@@ -104,6 +112,7 @@ const EditDorsal = () => {
                     </ActionConfirmedWrapper>
                 </ActionConfirmedContainer>
             )}
+            <Toaster/>
         </>
     );
 }

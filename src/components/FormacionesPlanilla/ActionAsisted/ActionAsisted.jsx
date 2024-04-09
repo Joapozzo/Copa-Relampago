@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ActionBack, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer, AssistOptContainer, OptionGolContainer, OptionGolWrapper } from '../ActionConfirmed/ActionConfirmedStyles';
+import { ActionBack, ActionBackContainer, ActionConfirmedContainer, ActionConfirmedWrapper, ActionNext, ActionTitle, ActionsContainer, AssistOptContainer, IconClose, OptionGolContainer, OptionGolWrapper } from '../ActionConfirmed/ActionConfirmedStyles';
 import { AlignmentDivider } from '../../Stats/Alignment/AlignmentStyles';
-import { HiArrowLeft } from "react-icons/hi2";
+import { HiArrowLeft, HiMiniXMark } from "react-icons/hi2";
 import Select2 from '../../UI/Select/Select2';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,13 @@ import { setNewAssist, toggleHiddenAction, toggleHiddenAsist, toggleHiddenTime }
 const ActionAsisted = () => {
     const dispatch = useDispatch();
     const hiddenAsist = useSelector((state) => state.planillero.asist.hidden);
+
+    //Cerrar componente clickeando en el overlay
+    const handleOverlayClick = (event) => {
+        if (event.target === event.currentTarget) {
+            dispatch(toggleHiddenAsist());
+        }
+    };
 
     //Boton siguiente
     const handleNext = () => {
@@ -84,12 +91,18 @@ const ActionAsisted = () => {
     return (
         <>
         {!hiddenAsist && (
-            <ActionConfirmedContainer>
+            <ActionConfirmedContainer onClick={handleOverlayClick}>
                 <ActionConfirmedWrapper>
-                    <ActionBack onClick={handleBack}>
-                        <HiArrowLeft />
-                        <p>Volver</p>
+                    <ActionBackContainer>
+                        <ActionBack onClick={handleBack}>
+                            <HiArrowLeft />
+                            <p>Volver</p>
                     </ActionBack>
+                    <IconClose>
+                        <HiMiniXMark onClick={() => dispatch(toggleHiddenAsist())}/>
+                    </IconClose>
+                    </ActionBackContainer>
+
                     <ActionTitle>
                         <h3>Indique la opción del Gol</h3>
                         <AlignmentDivider/>
