@@ -21,7 +21,7 @@ import JugadoresEventuales from '../../components/FormacionesPlanilla/JugadoresE
 const Planilla = () => {
 
     const dispatch = useDispatch();
-    const estadoPartido = useSelector((state) => state.planillero.timeMatch.matchState);
+    const estadoPartido = useSelector((state) => state.planillero.timeMatch.matchState)
     console.log(estadoPartido);
 
     const match = useSelector((state) => state.match);

@@ -24,9 +24,6 @@ const initialState = {
     hidden: true,
     newTime: ''
   },
-  timeMatch: {
-    matchState: null
-  },
   modal: {
     hidden: true,
     modalState: null,
@@ -43,6 +40,9 @@ const initialState = {
   playerEvent: {
     hidden: true,
     idPlayerTeam: null,
+  },
+  timeMatch: {
+    matchState: null,
   },
 };
 
