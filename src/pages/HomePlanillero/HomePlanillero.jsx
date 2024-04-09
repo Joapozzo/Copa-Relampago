@@ -16,7 +16,6 @@ const HomePlanillero = () => {
             </Section>
         </HomeWrapper>
     </HomePlanilleroContainer>
-
   )
 }
 

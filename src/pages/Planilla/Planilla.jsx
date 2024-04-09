@@ -22,6 +22,7 @@ const Planilla = () => {
 
     const dispatch = useDispatch();
     const estadoPartido = useSelector((state) => state.planillero.timeMatch.matchState);
+    console.log(estadoPartido);
 
     const match = useSelector((state) => state.match);
     const [canStartMatch, setCanStartMatch] = useState(false);
@@ -72,7 +73,7 @@ const Planilla = () => {
 
                 <InputDescContainer>
                     <p>Escriba aquí alguna observacion o descripción del partido</p>
-                    <InputLong/>
+                    <InputLong id="uniqueId" name="fieldName" placeholder="Escribe aquí" />
                     <ButtonMatch>
                         Enviar
                     </ButtonMatch>
